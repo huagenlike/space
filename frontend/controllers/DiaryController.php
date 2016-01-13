@@ -49,13 +49,30 @@ class DiaryController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DiarySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        $query = \common\models\Diary::find();
+        $query->where(' `status` != :status', [
+            ':status' => \common\base\Status::DELETE,
         ]);
+        $request = Yii::$app->getRequest()->get();
+        unset($request['r']);
+
+        $total = $query->count();
+
+        $pageSize = 10;
+        $pager = new \common\base\Page();
+        $pager->pageName = 'page';
+        $pageBarNum = 5;
+        $pages = $pager->show($total, $pageSize, $pageBarNum);
+        $page = isset($request['page']) ? $request['page'] : 1;
+        $offset = $pageSize * ($page - 1);
+        if ($offset >= $total) {
+            $offset = $total;
+        };
+        $query->orderBy(' `id` DESC');
+        $query->offset($offset);
+        $query->limit($pageSize);
+        $list = $query->asArray()->all();
+        return $this->render('index', ['pages' => $pages, 'total' => $total, 'list' => $list]);
     }
 
     /**
@@ -78,12 +95,15 @@ class DiaryController extends Controller
     public function actionCreate()
     {
         $model = new Diary();
-
+        $query = \common\models\DiaryType::find();
+        $data = $query->asArray()->all();
+        $model->c_time = time();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'data' => $data,
             ]);
         }
     }
@@ -97,12 +117,15 @@ class DiaryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $query = \common\models\DiaryType::find();
+        $data = $query->asArray()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id, 'data' => $data]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'data' => $data,
             ]);
         }
     }
@@ -122,9 +145,26 @@ class DiaryController extends Controller
 
     public function actionUpload()
     {
+//        $path = "D:/wamp/www/space/uploads/";
         if(!isset($_FILES) || $_FILES['imgFile']['error'] || !$_FILES['imgFile']['name']){
-            echo json_encode(['error' => 1, 'message' => '文件上传失败！']);
+            return json_encode(['error' => 1, 'message' => '文件上传失败！']);
         }
+        if(!in_array($_FILES['imgFile']['type'], ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'])){
+            return json_encode(['error' => 1, 'message' => '文件类型符']);
+        }
+        $filePath = $_FILES['imgFile']['tmp_name'];
+        $fileName = date('ymdHis', time()) . $_FILES['imgFile']['name'];
+        if(!file_exists($filePath)){
+            return json_encode(['error' => 1, 'message' => '临时文件不存在']);
+        }
+
+        $url = \common\extend\qiniu\Upload::getInstance()->uploadFile($fileName, $filePath);
+        if (isset($url['key']) && $url['key'] ) {
+            return json_encode(['error' => 0, 'url' => \Yii::$app->params['qiniu']['baseurl'] . $fileName]); ;
+        } else {
+            \common\base\TaskLog::getInstance()->writeLog(\yii\helpers\Json::encode($url));
+        }
+        var_dump($url);die;
     }
 
     /**

@@ -12,6 +12,7 @@ use Yii;
  * @property string $content
  * @property string $tag
  * @property string $type
+ * @property string $status
  * @property string $jurisdiction
  * @property integer $c_time
  * @property integer $u_time
@@ -35,9 +36,12 @@ class Diary extends \yii\db\ActiveRecord
             [['title', 'content', 'c_time'], 'required'],
             [['content'], 'string'],
             [['c_time', 'u_time'], 'integer'],
+            [['c_time', 'u_time'], 'integer'],
+            ['c_time', 'default', 'value' => time()],
+            ['u_time', 'default', 'value' => time()],
             [['title'], 'string', 'max' => 52],
             [['tag'], 'string', 'max' => 100],
-            [['type', 'jurisdiction'], 'string', 'max' => 1]
+            [['type', 'status', 'jurisdiction'], 'string', 'max' => 1]
         ];
     }
 
@@ -52,9 +56,10 @@ class Diary extends \yii\db\ActiveRecord
             'content' => 'Content',
             'tag' => 'Tag',
             'type' => 'Type',
+            'status' => 'Status',
             'jurisdiction' => 'Jurisdiction',
-            'c_time' => 'C Time',
-            'u_time' => 'U Time',
+            'c_time' => 'c_Time',
+            'u_time' => 'u_Time',
         ];
     }
 }
