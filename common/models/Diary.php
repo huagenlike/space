@@ -22,6 +22,13 @@ class Diary extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+ static public $status = [
+        '1' => '显示',
+        '2' => '关闭',
+        '3' => '删除'
+    ];
+
     public static function tableName()
     {
         return 'diary';

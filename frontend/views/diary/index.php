@@ -1,63 +1,70 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 //use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\DiarySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Diaries';
+$this->title = '日历';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
-    .headul li{float: left; width: 100px;text-align: center;}
-    .bodyul li{float:left; height:95px;}
-    .headul li:nth-child(1),.bodyul li:nth-child(1){width:80px;}
-    .headul li:nth-child(2),.bodyul li:nth-child(2){width:200px;}
-    .headul li:nth-child(3),.bodyul li:nth-child(3){width:500px;display:block;word-wrap:break-word; overflow:hidden; text-overflow:ellipsis;}
-    .headul li:nth-child(4),.bodyul li:nth-child(4){width:110px;}
-    .headul li:nth-child(5),.bodyul li:nth-child(5){width:80px;}
-    .headul li:nth-child(6),.bodyul li:nth-child(6){width:160px;}
+    .container-fluid div{margin:10px;}
+    .title{color:#7b3f25;font-weight:bold;font-size:20px;;}
+    .content{height:100px;overflow:hidden;}
+    .bigbox,.r-box{margin-top:30px;float: left;}
+    .bigbox{width:78%;}
 
+    .bigbox .diary{width:100%;margin:0px;padding:0px;}
+    .bigbox .diary li{list-style: none;}
+    .bigbox .diary li:first-child{border-top: 2px solid #e0d1ea;border-bottom: 2px dashed #e0d1ea;}
+    .bigbox .diary li:not(:first-child){border-bottom: 2px dashed #e0d1ea;}
 
+    .r-box{width:19%;margin-left:2%;}
 
+    .hint{width:400px;height:200px;;position:absolute; left:30%;top:35%;}
+    .hint p:first-child{background-color:#00a0e9;}
+    .hint p:last-child{height:100%;text-align:center;;border:1px solid #e0d1ea;background-color:#e0d1ea;font:normal bold 18px/200px arial,微软雅黑;}
 </style>
 <div class="diary-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Create Diary', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div class="bigbox">
+        <ul class="diary">
+            <?php if ($list) { ?>
+                <?php foreach ($list as $val) {?>
+                    <li class="span4">
+                        <div class="container-fluid">
+                            <div class="title"><a href="index.php?r=diary/view&id=<?php echo $val['id']?>"><?php echo $val['title'] ?></a></div>
+                            <div class="content"><?php echo $val['content'] ?></div>
+                            <div class="diary_footer">
+                                <span><?php echo date("Y-m-d", $val['c_time']); ?>&nbsp;</span>
+                                <span>阅读&nbsp;（<?php echo $val['click']; ?>）</span>
+                                <span>评论&nbsp;（<?php echo $val['comment']; ?>）</span>
+                            </div>
+                        </div>
+                    </li>
+                <?php } ?>
+            <?php }else{ ?>
+                <div class='hint'>
+                    <p class="list-group-item">提示</p>
+                    <p>当前分类下没有日志！</p>
+                </div>
+            <?php } ?>
 
-    <ul class="list-group headul">
-        <li class="list-group-item">ID</li>
-        <li class="list-group-item">标题</li>
-        <li class="list-group-item">内容</li>
-        <li class="list-group-item">创建时间</li>
-        <li class="list-group-item">状态</li>
-        <li class="list-group-item">操作</li>
-    </ul>
-    <?php foreach ($list as $val) {?>
-        <ul class="list-group bodyul">
-            <li class="list-group-item"><?php echo $val['id'] ?></li>
-            <li class="list-group-item"><?php echo $val['title'] ?></li>
-            <li class="list-group-item"><?php echo $val['content'] ?></li>
-            <li class="list-group-item"><?php echo $val['c_time'] ?></li>
-            <li class="list-group-item"><?php echo $val['status'] ?></li>
-            <li class="list-group-item">
-                <?php
-                echo Html::a('查看', ['view', 'id' => $val['id'], ['target' => '_blank']]);
-                echo "&nbsp;&nbsp;&nbsp;";
-                echo Html::a('编辑', ['update', 'id' => $val['id'], ['target' => '_blank']]);
-                echo "&nbsp;&nbsp;&nbsp;";
-                echo Html::a('删除', ['delete', 'id' => $val['id'], ['target' => '_blank']]);
-                echo "&nbsp;&nbsp;&nbsp;";
-                ?>
-            </li>
         </ul>
-    <?php } ?>
-    <?php echo $pages; ?>
+        <?php echo $pages; ?>
+    </div>
+    <div class="r-box">
+        <ul class="list-group">
+            <li class="list-group-item active">日志分类</li>
+            <?php foreach ($data as $key => $val) {?>
+                <li class="list-group-item <?php echo ($_GET['type'] == $val['id']) ? 'list-group-item-info' : '';?>"><a href="index.php?r=diary/index&type=<?= $val['id'] ?>"><?= $val['name'] ?></a><span class="badge"><?= $val['num'] ?></span></li>
+            <?php } ?>
+        </ul>
+    </div>
 </div>

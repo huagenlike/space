@@ -16,15 +16,15 @@ $model->type = $model['type'];
 <!--   --><?php // var_dump($model['type'],$data);die; ?>
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true])->label("标题") ?>
 
-    <?= $form->field($model, 'tag')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'tag')->textInput(['maxlength' => true])->label("标签") ?>
 
-    <?= $form->field($model, 'type')->dropDownList(ArrayHelper::map($data,'id', 'name')); ?>
+    <?= $form->field($model, 'type')->dropDownList(ArrayHelper::map($data,'id', 'name'))->label("分类"); ?>
 
-    <?= $form->field($model, 'content')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'content')->textarea(['rows' => 6])->label("内容") ?>
 
-    <?= $form->field($model, 'jurisdiction')->radioList(['0'=>'开','1'=>'关'])?>
+    <?= $form->field($model, 'status')->radioList(['1'=>'显示','2'=>'隐藏'])->label("状态")?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
