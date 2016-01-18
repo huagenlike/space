@@ -97,7 +97,7 @@ class DiaryController extends Controller
             'pages' => $pages,
             'total' => $total,
             'list' => $list,
-            'data' => $param
+            'data' => $param,
         ]);
     }
 

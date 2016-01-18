@@ -1,9 +1,5 @@
 <?php
 
-use yii\helpers\Html;
-use yii\helpers\ArrayHelper;
-//use yii\grid\GridView;
-
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\DiarySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -28,6 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
     .hint{width:400px;height:200px;;position:absolute; left:30%;top:35%;}
     .hint p:first-child{background-color:#00a0e9;}
     .hint p:last-child{height:100%;text-align:center;;border:1px solid #e0d1ea;background-color:#e0d1ea;font:normal bold 18px/200px arial,微软雅黑;}
+
+    #keyWork{color:#e0d1ea;}
+    .search{ margin-top:0px;}
 </style>
 <div class="diary-index">
 
@@ -36,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="bigbox">
         <ul class="diary">
             <?php if ($list) { ?>
-                <?php foreach ($list as $val) {?>
+                <?php foreach ($list as $val) { ?>
                     <li class="span4">
                         <div class="container-fluid">
                             <div class="title"><a href="index.php?r=diary/view&id=<?php echo $val['id']?>"><?php echo $val['title'] ?></a></div>
@@ -55,16 +54,27 @@ $this->params['breadcrumbs'][] = $this->title;
                     <p>当前分类下没有日志！</p>
                 </div>
             <?php } ?>
-
         </ul>
         <?php echo $pages; ?>
     </div>
     <div class="r-box">
         <ul class="list-group">
             <li class="list-group-item active">日志分类</li>
-            <?php foreach ($data as $key => $val) {?>
-                <li class="list-group-item <?php echo ($_GET['type'] == $val['id']) ? 'list-group-item-info' : '';?>"><a href="index.php?r=diary/index&type=<?= $val['id'] ?>"><?= $val['name'] ?></a><span class="badge"><?= $val['num'] ?></span></li>
+            <?php foreach ($data as $key => $val) { ?>
+                <li class="list-group-item <?php echo (!empty($_GET['type']) && $_GET['type'] == $val['id']) ? 'list-group-item-info' : '';?>"><a href="index.php?r=diary/index&type=<?= $val['id'] ?>"><?= $val['name'] ?></a><span class="badge"><?= $val['num'] ?></span></li>
             <?php } ?>
         </ul>
     </div>
+    <div class="r-box search">
+        <p>搜索日志</p>
+        <input type="text" name="keyWork" id="keyWork" class="form-control" value="请输入关键字">
+    </div>
 </div>
+<?= $this->registerJsFile("@frontend/web/assets/990ca8cf/jquery.js",[
+    "depends" => [\yii\web\JqueryAsset::className()]]
+) ?>
+<script>
+    $("#keyWork").click(function(){
+        alert('222');
+    })
+</script>
