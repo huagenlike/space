@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel common\models\DiarySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Diaries';
+$this->title = '日志';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
@@ -19,13 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
     .headul li:nth-child(4),.bodyul li:nth-child(4){width:110px;}
     .headul li:nth-child(5),.bodyul li:nth-child(5){width:80px;}
     .headul li:nth-child(6),.bodyul li:nth-child(6){width:160px;}
-
-
-
 </style>
 <div class="diary-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>

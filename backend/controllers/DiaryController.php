@@ -21,23 +21,23 @@ class DiaryController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
+                'class' => AccessControl::className(),  // 使用核心过滤器Access 对执行动作进行验证
+                'rules' => [  // 规则
                     [
                         'actions' => ['login', 'error'],
                         'allow' => true,
                     ],
                     [
                         'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'upload'],
-                        'allow' => true,
+                        'allow' => true,  // 只允许认证用户进行访问
                         'roles' => ['@'],
                     ]
                 ]
             ],
-            'verbs' => [
+            'verbs' => [  // 设置curd动作 所运行的请求方式
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete' => ['post'],  // post 方法
                 ],
             ],
         ];

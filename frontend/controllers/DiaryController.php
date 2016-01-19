@@ -71,10 +71,15 @@ class DiaryController extends Controller
         $request = Yii::$app->getRequest()->get();
 
         $type = '';
-        if(!empty($request['type'])){
+        if (!empty($request['type'])) {
             $type = $request['type'];
             $query->andWhere(" `type` = :type", [
                 ':type' => intval($type)
+            ]);
+        }
+        if (!empty($request['keyWork'])) {
+            $query->andWhere(" `title` like :title", [
+                ':title' => '%' . $_GET['keyWork'] . '%'
             ]);
         }
         $total = $query->count();
@@ -98,6 +103,7 @@ class DiaryController extends Controller
             'total' => $total,
             'list' => $list,
             'data' => $param,
+            'model' => $model,
         ]);
     }
 
