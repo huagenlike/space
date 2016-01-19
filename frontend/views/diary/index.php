@@ -36,20 +36,18 @@ if(!empty($_GET['type']))
 </style>
 <div class="diary-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <div class="bigbox">
         <ul class="diary">
             <?php if ($list) { ?>
                 <?php foreach ($list as $val) { ?>
                     <li class="span4">
                         <div class="container-fluid">
-                            <div class="title"><a href="index.php?r=diary/view&id=<?php echo $val['id']?>"><?php echo $val['title'] ?></a></div>
-                            <div class="content"><?php echo $val['content'] ?></div>
+                            <div class="title"><?= Html::a($val['title'], ['diary/view', 'id' => $val['id'], ['class' => '']]) ?></div>
+                            <div class="content"><?= $val['content'] ?></div>
                             <div class="diary_footer">
-                                <span><?php echo date("Y-m-d", $val['c_time']); ?>&nbsp;</span>
-                                <span>阅读&nbsp;（<?php echo $val['click']; ?>）</span>
-                                <span>评论&nbsp;（<?php echo $val['comment']; ?>）</span>
+                                <span><?= date("Y-m-d", $val['c_time']) ?>&nbsp;</span>
+                                <span>阅读&nbsp;（<?= $val['click']; ?>）</span>
+                                <span>评论&nbsp;（<?= $val['comment']; ?>）</span>
                             </div>
                         </div>
                     </li>
@@ -61,13 +59,13 @@ if(!empty($_GET['type']))
                 </div>
             <?php } ?>
         </ul>
-        <?php echo $pages; ?>
+        <?= $pages; ?>
     </div>
     <div class="r-box">
         <ul class="list-group">
             <li class="list-group-item active">日志分类</li>
             <?php foreach ($data as $key => $val) { ?>
-                <li class="list-group-item <?php echo (!empty($_GET['type']) && $_GET['type'] == $val['id']) ? 'list-group-item-info' : '';?>"><a href="index.php?r=diary/index&type=<?= $val['id'] ?>"><?= $val['name'] ?></a><span class="badge"><?= $val['num'] ?></span></li>
+                <li class="list-group-item <?=  (!empty($_GET['type']) && $_GET['type'] == $val['id']) ? 'list-group-item-info' : '';?>"><?= Html::a($val['name'], ['diary/index', 'type' => $val['id']]) ?><span class="badge"><?= $val['num'] ?></span></li>
             <?php } ?>
         </ul>
     </div>

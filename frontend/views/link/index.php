@@ -41,9 +41,9 @@ if(!empty($_GET['type']))
                 foreach ($list as $val) {
                     ?>
                     <ul class="list-group">
-                        <li class="list-group-item "><?php echo $val['title']; ?></li>
-                        <li class="list-group-item "><a href="<?php echo $val['addr']; ?>" target="_blank"><?php echo $val['addr']; ?></a></li>
-                        <li class="list-group-item "><?php echo date("Y-m-d", $val['c_time']); ?></li>
+                        <li class="list-group-item "><?= $val['title']; ?></li>
+                        <li class="list-group-item "><a href="<?= $val['addr']; ?>" target="_blank"><?= $val['addr']; ?></a></li>
+                        <li class="list-group-item "><?= date("Y-m-d", $val['c_time']); ?></li>
                     </ul>
                     <?php
                 }
@@ -60,7 +60,7 @@ if(!empty($_GET['type']))
             'options' => ['class' => 'form-horizontal']
         ]); ?>
         <p>搜索网站</p>
-        <input type="text" name="keyWork" class="form-control keyWork" value="请输入关键字">
+        <input type="text" name="keyWord" class="form-control keyWork" value="请输入关键字">
         <?= Html::submitButton('',['class' => 'commit']) ?>
         <?php $form = ActiveForm::end(); ?>
     </div>

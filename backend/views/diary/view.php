@@ -20,12 +20,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <ul class="list-group title">
-        <li class="list-group-item">标题：<?php echo $model['title'];?></li>
-        <li class="list-group-item">类型：<?php echo $data[$model['type']];?></li>
-        <li class="list-group-item">状态：<?php echo common\models\Diary::$status[$model['status']];?></li>
+        <li class="list-group-item">标题：<?= $model['title'];?></li>
+        <li class="list-group-item">类型：<?= $data[$model['type']];?></li>
+        <li class="list-group-item">状态：<?= common\models\Diary::$status[$model['status']];?></li>
         <li class="list-group-item">内容</li>
-        <li class="list-group-item"><?php echo $model['content'];?></li>
-        <li class="list-group-item">创建时间：<?php echo date("Y-m-d H:i:s", $model['c_time']);?></li>
+        <li class="list-group-item"><?= $model['content'];?></li>
+        <li class="list-group-item">创建时间：<?= date("Y-m-d H:i:s", $model['c_time']);?></li>
     </ul>
 
     <p>

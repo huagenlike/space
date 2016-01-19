@@ -22,9 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="box">
-        <div class="header-box"><?php echo date("Y-m-d H:i:s", $model['c_time']);?>&nbsp;&nbsp;阅读&nbsp;（<?php echo $model['click']?>）</div>
+        <div class="header-box"><?= date("Y-m-d H:i:s", $model['c_time']);?>&nbsp;&nbsp;阅读&nbsp;（<?= $model['click']?>）</div>
         <div class="content">
-            <?php echo $model['content'];?>
+            <?= $model['content'];?>
         </div>
     </div>
 

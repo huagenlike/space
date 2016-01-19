@@ -38,11 +38,11 @@ $this->params['breadcrumbs'][] = $this->title;
     </ul>
     <?php foreach ($list as $val) {?>
         <ul class="list-group bodyul">
-            <li class="list-group-item"><?php echo $val['id']; ?></li>
-            <li class="list-group-item"><?php echo $val['title']; ?></li>
-            <li class="list-group-item"><?php echo $val['content']; ?></li>
-            <li class="list-group-item"><?php echo date("Y-m-d", $val['c_time']); ?></li>
-            <li class="list-group-item"><?php echo $val['status']; ?></li>
+            <li class="list-group-item"><?= $val['id']; ?></li>
+            <li class="list-group-item"><?= $val['title']; ?></li>
+            <li class="list-group-item"><?= $val['content']; ?></li>
+            <li class="list-group-item"><?= date("Y-m-d", $val['c_time']); ?></li>
+            <li class="list-group-item"><?= $val['status']; ?></li>
             <li class="list-group-item">
                 <?php
                 echo Html::a('查看', ['view', 'id' => $val['id'], ['target' => '_blank']]);
@@ -55,5 +55,5 @@ $this->params['breadcrumbs'][] = $this->title;
             </li>
         </ul>
     <?php } ?>
-    <?php echo $pages; ?>
+    <?= $pages; ?>
 </div>

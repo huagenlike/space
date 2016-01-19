@@ -38,6 +38,13 @@ class LinkController extends Controller
         ]);
 
         $request = Yii::$app->getRequest()->get();
+
+        if (!empty($request['keyWord'])) {
+            $query->andWhere('`title` like :title', [
+                ':title' => '%' . $request['keyWord'] . '%'
+            ]);
+        }
+
         $total = $query->count();
         $pageSize = 10;
         $pager = new \common\base\Page();
